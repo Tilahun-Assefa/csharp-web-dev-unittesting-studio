@@ -24,20 +24,100 @@ namespace BalancedBracketsNS
          * returns true if balanced, false otherwise
         */
         public static bool HasBalancedBrackets(String str)
-        {
+        {            
             int brackets = 0;
-            foreach (char ch in str.ToCharArray())
+            if(str == null)
             {
-                if (ch == '[')
-                {
-                    brackets++;
-                }
-                else if (ch == ']')
-                {
-                    brackets--;
-                }
+                return false;
             }
-            return brackets == 0;
+
+            if(str.Length == 0)
+            {
+                return true;
+            }
+            else
+            {
+                foreach (char ch in str.ToCharArray())
+                {
+                    if (ch == '[')
+                    {
+                        brackets++;
+                    }
+                    else if (ch == ']')
+                    {
+                        if(brackets == 0)
+                        {
+                            return false;
+                        }
+                        else
+                        {
+                            brackets--;
+                        }                        
+                    }
+                }
+                return brackets == 0;
+            }            
+        }
+
+        static int i = 0;
+        static int j = -1;
+        static int count = 0;
+        static string s = "test[[bracket]][](parhent)";
+        public static bool IsBalancedBracket()
+        {
+
+            if (s.Length == 0)
+            {
+                return true;
+            }
+            else
+            {
+                int result;
+                while (i < s.Length)
+                {
+                    char temp = s[i];
+                    if (temp == ']')
+                    {
+                        result = HelperFunc('[');
+                        if (result == 0)
+                        {
+                            return false;
+                        }
+                    }
+                    else
+                    {
+                        j = i;
+                        i++;
+                        count++;
+                    }
+                }
+                if (count != 0)
+                {
+                    return false;
+                }
+                return true;
+            }
+        }
+
+        public static int HelperFunc(char brk)
+        {
+            count--;
+            char temp = s[j];
+
+            if (j > -1 && temp == brk)
+            {
+                s = s.Replace(s[i], '#');
+                s = s.Replace(s[j], '#');
+
+                temp = s[j];
+                while (j >= 0 && temp == '#')
+                    j--;
+
+                i++;
+                return 1;
+            }
+            else
+                return 0;
         }
     }
 }
